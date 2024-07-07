@@ -89,63 +89,91 @@ int registrar() {
     system("pause");
     
     // Sub-menu da tela registrar
-	while(laco == 1) {
-	
-	system("cls");
-	
-    printf("Deseja fazer um novo registro?\n\n");
-    printf("1- Fazer novo registro\n");
-    printf("2- Voltar ao menu principal\n\n");
-    printf("Digite a opção desejada: ");
-    scanf("%d", &opcao);
-    
-    getchar();  // Consome o caractere de nova linha que ficou no buffer
+    while (laco == 1) {
+        system("cls");
+        
+        printf("Deseja fazer um novo registro?\n\n");
+        printf("1- Fazer novo registro\n");
+        printf("2- Voltar ao menu principal\n\n");
+        printf("Digite a opção desejada: ");
+        scanf("%d", &opcao);
+        
+        getchar();  // Consome o caractere de nova linha que ficou no buffer
 
-    switch(opcao) {
-    	case 1:
-    		registrar();
-    		break;
-    	case 2:
-    		main();
-    		break;
-    	default:
-    		printf("Esta opção não está disponível!\n\n");
-        	system("pause");
-        	break;
-		}
-	}
+        switch (opcao) {
+            case 1:
+                registrar();
+                break;
+            case 2:
+                main();
+                break;
+            default:
+                printf("Esta opção não está disponível!\n\n");
+                system("pause");
+                break;
+        }
+    }
     
     return 0;
 }
 
 // Função chamada por outras funções do programa, para consultas no banco a partir de um CPF
 int consultaBanco(const char *cpf) {
-	
-	char conteudo[200];
-	setlocale(LC_ALL, "Portuguese");
-
-	// Busca o CPF nos arquivos e retorna o conteúdo tokenizado
-    FILE *file = fopen(cpf, "r");
-    if (file == NULL) {
-        printf("\nUsuário não localizado. Confira se este CPF existe e tente novamente! \n\n");
-        return 0; // Retorna 0 se o usuário não for encontrado
+    char conteudo[200];
+    int contador = 1;
+    setlocale(LC_ALL, "Portuguese");
+    
+    // Retorna a lista com todos os registros
+    if (cpf == 0) {
+        for (contador = 1; contador < 100; contador++) {
+            char nomeArquivo[20];
+            sprintf(nomeArquivo, "%d", contador);
+            
+            FILE *file = fopen(nomeArquivo, "r");
+            if (file == NULL) {
+                continue;
+            }
+            if (fgets(conteudo, sizeof(conteudo), file) != NULL) {
+                fclose(file);
+                
+                char *token = strtok(conteudo, ",");
+                printf("CPF: %s\n", token);
+                token = strtok(NULL, ",");
+                printf("Nome: %s\n", token);
+                token = strtok(NULL, ",");
+                printf("Sobrenome: %s\n", token);
+                token = strtok(NULL, ",");
+                printf("Cargo: %s\n", token);
+                printf("\n\n");
+            } else {
+                fclose(file);
+            }
+        }
     } else {
-        fgets(conteudo, sizeof(conteudo), file);
-        fclose(file);
-
-        char *token = strtok(conteudo, ",");
-        printf("\nUsuário localizado:\n\n");
-        printf("CPF: %s\n", token);
-        token = strtok(NULL, ",");
-        printf("Nome: %s\n", token);
-        token = strtok(NULL, ",");
-        printf("Sobrenome: %s\n", token);
-        token = strtok(NULL, ",");
-        printf("Cargo: %s\n", token);
-        printf("\n\n");
-        
-        return 1; // Retorna 1 se o usuário for encontrado
+        // Busca o CPF nos arquivos e retorna o conteúdo tokenizado
+        FILE *file = fopen(cpf, "r");
+        if (file == NULL) {
+            printf("\nUsuário não localizado. Confira se este CPF existe e tente novamente! \n\n");
+            return 0; // Retorna 0 se o usuário não for encontrado
+        } else {
+            fgets(conteudo, sizeof(conteudo), file);
+            fclose(file);
+    
+            char *token = strtok(conteudo, ",");
+            printf("\nUsuário localizado:\n\n");
+            printf("CPF: %s\n", token);
+            token = strtok(NULL, ",");
+            printf("Nome: %s\n", token);
+            token = strtok(NULL, ",");
+            printf("Sobrenome: %s\n", token);
+            token = strtok(NULL, ",");
+            printf("Cargo: %s\n", token);
+            printf("\n\n");
+            
+            return 1; // Retorna 1 se o usuário for encontrado
+        }
     }
+    system("pause");
 }
 
 /*
@@ -154,48 +182,47 @@ int consultaBanco(const char *cpf) {
  */
 int consultar() {
     char cpf[40];
-    char conteudo[200];
-    int laco=1;
-    int opcao=0;
+    int laco = 1;
+    int opcao = 0;
 
     setlocale(LC_ALL, "Portuguese");
     
     system("cls"); // Limpa a tela
 
-	// Solicita e lê o CPF
+    // Solicita e lê o CPF
     printf("Digite o CPF a ser consultado: ");
     scanf("%s", cpf);
-	
-	consultaBanco(cpf); //chama a função consultaBanco com o CPF fornecido pelo usuário
-
-	system("pause");
     
-    //Sub-menu da tela Consultar
-	while(laco == 1) {
-	system("cls");
-	
-    printf("Deseja fazer uma nova consulta?\n\n");
-    printf("1- Fazer nova consulta\n");
-    printf("2- Voltar ao menu principal\n\n");
-    printf("Digite a opção desejada: ");
-    scanf("%d", &opcao);
-    
-    getchar();  // Consome o caractere de nova linha que ficou no buffer
+    consultaBanco(cpf); // Chama a função consultaBanco com o CPF fornecido pelo usuário
 
-    switch(opcao) {
-    	case 1:
-    		consultar();
-    		break;
-    	case 2:
-    		main();
-    		break;
-    	default:
-    		printf("Esta opção não está disponível!\n\n");
-        	system("pause");
-        	break;
-		}
-	}
-	
+    system("pause");
+    
+    // Sub-menu da tela Consultar
+    while (laco == 1) {
+        system("cls");
+        
+        printf("Deseja fazer uma nova consulta?\n\n");
+        printf("1- Fazer nova consulta\n");
+        printf("2- Voltar ao menu principal\n\n");
+        printf("Digite a opção desejada: ");
+        scanf("%d", &opcao);
+        
+        getchar();  // Consome o caractere de nova linha que ficou no buffer
+
+        switch (opcao) {
+            case 1:
+                consultar();
+                break;
+            case 2:
+                main();
+                break;
+            default:
+                printf("Esta opção não está disponível!\n\n");
+                system("pause");
+                break;
+        }
+    }
+    
     return 0;
 }
 
@@ -211,72 +238,71 @@ int deletar() {
     setlocale(LC_ALL, "Portuguese");
     
     system("cls");
-	
-	// Solicita e lê o CPF
+    
+    // Solicita e lê o CPF
     printf("Digite o CPF do usuário a ser deletado: ");
     scanf("%s", cpf);
     
     // Chama a função consultaBanco com o CPF fornecido, para verificar se o usuário existe
     if (!consultaBanco(cpf)) {
-    	system("pause");
-    	deletar();
-	} // Se o usuário não for encontrado, volta para o início da função deletar
-	
-// Loop para confirmar a deleção
-	while(laco == 1) {
-		printf("Prosseguir com a deleção?\n");
-		printf("1. Sim\n");
-		printf("2. Não\n");
-		printf("Digite a opção desejada: ");
-		scanf("%d", &opcao);
-		
-		switch(opcao) {
-	    	case 1:
-	    		remove(cpf);
-	        	printf("\nUsuário deletado com sucesso!\n");
-	        	laco ++;
-	        	break;
-	    	case 2:
-	    		printf("\nOperação cancelada!\n");
-	    		laco ++;
-	    		break;
-	    	default:
-	    		printf("\nEsta opção não está disponível!\n\n");
-	        	break;	        
-			}
-			
-		system("pause");
-		system("cls");
-		consultaBanco(cpf);
-		
-		}
-   
-    // Sub-menu da tela Deletar
-	while(laco) {
-	system("cls");
-	
-    printf("Deseja fazer uma nova exclusão?\n\n");
-    printf("1- Fazer nova exclusão\n");
-    printf("2- Voltar ao menu principal\n\n");
-    printf("Digite a opção desejada: ");
-    scanf("%d", &opcao);
+        system("pause");
+        deletar();
+    } // Se o usuário não for encontrado, volta para o início da função deletar
     
-    getchar();  // Consome o caractere de nova linha que ficou no buffer
+    // Loop para confirmar a deleção
+    while (laco == 1) {
+        printf("Prosseguir com a deleção?\n");
+        printf("1. Sim\n");
+        printf("2. Não\n");
+        printf("Digite a opção desejada: ");
+        scanf("%d", &opcao);
+        
+        switch (opcao) {
+            case 1:
+                remove(cpf);
+                printf("\nUsuário deletado com sucesso!\n");
+                laco++;
+                break;
+            case 2:
+                printf("\nOperação cancelada!\n");
+                laco++;
+                break;
+            default:
+                printf("\nEsta opção não está disponível!\n\n");
+                break;
+        }
+        
+        system("pause");
+        system("cls");
+        consultaBanco(cpf);
+    }
+    
+    // Sub-menu da tela Deletar
+    while (laco) {
+        system("cls");
+        
+        printf("Deseja fazer uma nova exclusão?\n\n");
+        printf("1- Fazer nova exclusão\n");
+        printf("2- Voltar ao menu principal\n\n");
+        printf("Digite a opção desejada: ");
+        scanf("%d", &opcao);
+        
+        getchar();  // Consome o caractere de nova linha que ficou no buffer
 
-    switch(opcao) {
-    	case 1:
-    		deletar();
-    		break;
-    	case 2:
-    		main();
-    		break;
-    	default:
-    		printf("Esta opção não está disponível!\n\n");
-        	system("pause");
-        	break;
-		}
-	}
-	
+        switch (opcao) {
+            case 1:
+                deletar();
+                break;
+            case 2:
+                main();
+                break;
+            default:
+                printf("Esta opção não está disponível!\n\n");
+                system("pause");
+                break;
+        }
+    }
+    
     return 0;
 }
 
@@ -287,8 +313,9 @@ int deletar() {
 int main() {
     int opcao = 0;
     int laco = 1;
+    int cpf = 0;
 
-	// Estrutura de repetição para o menu do programa
+    // Estrutura de repetição para o menu do programa
     while (laco == 1) {
         system("cls"); // Limpa a tela
         setlocale(LC_ALL, "Portuguese");
@@ -296,8 +323,9 @@ int main() {
         printf("### Cartório da EBAC ###\n\n");
         printf("Escolha a opção desejada do menu:\n\n");
         printf("\t1 - Registrar usuário\n");
-        printf("\t2 - Consultar usuário\n");
-        printf("\t3 - Deletar usuário\n\n");
+        printf("\t2 - Consultar usuário por CPF\n");
+        printf("\t3 - Consultar lista de usuários\n");
+        printf("\t4 - Deletar usuário\n\n");
 
         printf("Opção: ");
         scanf("%d", &opcao);
@@ -313,6 +341,9 @@ int main() {
                 consultar();
                 break;
             case 3:
+                consultaBanco(cpf);
+                break;
+            case 4:
                 deletar();
                 break;
             default:
