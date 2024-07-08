@@ -311,11 +311,11 @@ int deletar() {
  * OBS: A função main contém o menu de acesso às opções do programa de Cartório da EBAC.
  */
 int main() {
-    int opcao = 0;
-    int laco = 1;
-    int cpf = 0;
-    char senha[10] = "a";
-    int comparacao;
+	int opcao = 0;
+    	int laco = 1;
+    	int cpf = 0;
+    	char senha[10] = "a";
+    	int comparacao;
 		
 	setlocale(LC_ALL, "Portuguese");
 	
@@ -327,10 +327,10 @@ int main() {
 	
 	if (comparacao == 0) {
 		// Estrutura de repetição para o menu do programa
-	    while (laco == 1) {
+		while (laco == 1) {
 	        system("cls"); // Limpa a tela
 	        
-			printf("### Cartório da EBAC ###\n\n");
+		printf("### Cartório da EBAC ###\n\n");
 	        printf("Escolha a opção desejada do menu:\n\n");
 	        printf("\t1 - Registrar usuário\n");
 	        printf("\t2 - Consultar usuário por CPF\n");
