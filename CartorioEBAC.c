@@ -1,9 +1,9 @@
-#include <stdio.h>   // Lib de comunicaÁ„o com user
-#include <stdlib.h>  // Lib de alocaÁ„o de espaÁo em memÛria
-#include <locale.h>  // Lib de alocaÁ„o de texto por regi„o
-#include <string.h>  // Lib respons·vel por cuidar das strings
+#include <stdio.h>   // Lib de comunica√ß√£o com user
+#include <stdlib.h>  // Lib de aloca√ß√£o de espa√ßo em mem√≥ria
+#include <locale.h>  // Lib de aloca√ß√£o de texto por regi√£o
+#include <string.h>  // Lib respons√°vel por cuidar das strings
 
-// FunÁ„o para remover o caractere de nova linha '\n' da string lida por fgets
+// Fun√ß√£o para remover o caractere de nova linha '\n' da string lida por fgets
 void removerNovaLinha(char *str) {
     size_t len = strlen(str);
     if (len > 0 && str[len - 1] == '\n') {
@@ -12,9 +12,9 @@ void removerNovaLinha(char *str) {
 }
 
 /*
- * FunÁ„o para registro de usu·rios
- * OBS: Usei fgets ao invÈs de scanf para salvar nomes com espaÁos. 
- * A funÁ„o removerNovaLinha ajuda a remover o '\n' lido por fgets.
+ * Fun√ß√£o para registro de usu√°rios
+ * OBS: Usei fgets ao inv√©s de scanf para salvar nomes com espa√ßos. 
+ * A fun√ß√£o removerNovaLinha ajuda a remover o '\n' lido por fgets.
  */
 int registrar() {
     char arquivo[40];
@@ -25,12 +25,12 @@ int registrar() {
     int opcao = 0;
     int laco = 1;
 
-    // Define a linguagem do usu·rio
+    // Define a linguagem do usu√°rio
     setlocale(LC_ALL, "Portuguese");
     
     system("cls"); // Limpa a tela
 
-    // Solicita e lÍ o CPF
+    // Solicita e l√™ o CPF
     printf("Digite o CPF a ser cadastrado: ");
     fgets(cpf, sizeof(cpf), stdin);
     removerNovaLinha(cpf);
@@ -48,7 +48,7 @@ int registrar() {
     fclose(file);
     printf("\nCPF cadastrado com sucesso! \n\n");
 
-    // Solicita e lÍ o nome
+    // Solicita e l√™ o nome
     printf("Digite o nome a ser cadastrado: ");
     fgets(nome, sizeof(nome), stdin);
     removerNovaLinha(nome);
@@ -61,7 +61,7 @@ int registrar() {
     fclose(file);
     printf("\nNome cadastrado com sucesso! \n\n");
 
-    // Solicita e lÍ o sobrenome
+    // Solicita e l√™ o sobrenome
     printf("Digite o sobrenome a ser cadastrado: ");
     fgets(sobrenome, sizeof(sobrenome), stdin);
     removerNovaLinha(sobrenome);
@@ -74,7 +74,7 @@ int registrar() {
     fclose(file);
     printf("\nSobrenome cadastrado com sucesso! \n\n");
 
-    // Solicita e lÍ o cargo
+    // Solicita e l√™ o cargo
     printf("Digite o cargo a ser cadastrado: ");
     fgets(cargo, sizeof(cargo), stdin);
     removerNovaLinha(cargo);
@@ -95,7 +95,7 @@ int registrar() {
         printf("Deseja fazer um novo registro?\n\n");
         printf("1- Fazer novo registro\n");
         printf("2- Voltar ao menu principal\n\n");
-        printf("Digite a opÁ„o desejada: ");
+        printf("Digite a op√ß√£o desejada: ");
         scanf("%d", &opcao);
         
         getchar();  // Consome o caractere de nova linha que ficou no buffer
@@ -108,7 +108,7 @@ int registrar() {
                 return 0;
                 break;
             default:
-                printf("Esta opÁ„o n„o est· disponÌvel!\n\n");
+                printf("Esta op√ß√£o n√£o est√° dispon√≠vel!\n\n");
                 system("pause");
                 break;
         }
@@ -117,7 +117,7 @@ int registrar() {
     return 0;
 }
 
-// FunÁ„o chamada por outras funÁıes do programa, para consultas no banco a partir de um CPF
+// Fun√ß√£o chamada por outras fun√ß√µes do programa, para consultas no banco a partir de um CPF
 int consultaBanco(const char *cpf) {
     char conteudo[200];
     int contador = 1;
@@ -150,17 +150,17 @@ int consultaBanco(const char *cpf) {
             }
         }
     } else {
-        // Busca o CPF nos arquivos e retorna o conte˙do tokenizado
+        // Busca o CPF nos arquivos e retorna o conte√∫do tokenizado
         FILE *file = fopen(cpf, "r");
         if (file == NULL) {
-            printf("\nUsu·rio n„o localizado. Confira se este CPF existe e tente novamente! \n\n");
-            return 0; // Retorna 0 se o usu·rio n„o for encontrado
+            printf("\nUsu√°rio n√£o localizado. Confira se este CPF existe e tente novamente! \n\n");
+            return 0; // Retorna 0 se o usu√°rio n√£o for encontrado
         } else {
             fgets(conteudo, sizeof(conteudo), file);
             fclose(file);
     
             char *token = strtok(conteudo, ",");
-            printf("\nUsu·rio localizado:\n\n");
+            printf("\nUsu√°rio localizado:\n\n");
             printf("CPF: %s\n", token);
             token = strtok(NULL, ",");
             printf("Nome: %s\n", token);
@@ -170,15 +170,15 @@ int consultaBanco(const char *cpf) {
             printf("Cargo: %s\n", token);
             printf("\n\n");
             
-            return 1; // Retorna 1 se o usu·rio for encontrado
+            return 1; // Retorna 1 se o usu√°rio for encontrado
         }
     }
     system("pause");
 }
 
 /*
- * FunÁ„o para consulta de usu·rios
- * OBS: A funÁ„o de consultar usa a funÁ„o strtok para tokenizar os dados do arquivo.
+ * Fun√ß√£o para consulta de usu√°rios
+ * OBS: A fun√ß√£o de consultar usa a fun√ß√£o strtok para tokenizar os dados do arquivo.
  */
 int consultar() {
     char cpf[40];
@@ -189,11 +189,11 @@ int consultar() {
     
     system("cls"); // Limpa a tela
 
-    // Solicita e lÍ o CPF
+    // Solicita e l√™ o CPF
     printf("Digite o CPF a ser consultado: ");
     scanf("%s", cpf);
     
-    consultaBanco(cpf); // Chama a funÁ„o consultaBanco com o CPF fornecido pelo usu·rio
+    consultaBanco(cpf); // Chama a fun√ß√£o consultaBanco com o CPF fornecido pelo usu√°rio
 
     system("pause");
     
@@ -204,7 +204,7 @@ int consultar() {
         printf("Deseja fazer uma nova consulta?\n\n");
         printf("1- Fazer nova consulta\n");
         printf("2- Voltar ao menu principal\n\n");
-        printf("Digite a opÁ„o desejada: ");
+        printf("Digite a op√ß√£o desejada: ");
         scanf("%d", &opcao);
         
         getchar();  // Consome o caractere de nova linha que ficou no buffer
@@ -217,7 +217,7 @@ int consultar() {
                 return 0;
                 break;
             default:
-                printf("Esta opÁ„o n„o est· disponÌvel!\n\n");
+                printf("Esta op√ß√£o n√£o est√° dispon√≠vel!\n\n");
                 system("pause");
                 break;
         }
@@ -227,8 +227,8 @@ int consultar() {
 }
 
 /*
- * FunÁ„o para deletar usu·rios
- * OBS: A funÁ„o deletar valida se o usu·rio existe antes de deletar o arquivo correspondente.
+ * Fun√ß√£o para deletar usu√°rios
+ * OBS: A fun√ß√£o deletar valida se o usu√°rio existe antes de deletar o arquivo correspondente.
  */
 int deletar() {
     char cpf[40];
@@ -239,36 +239,36 @@ int deletar() {
     
     system("cls");
     
-    // Solicita e lÍ o CPF
-    printf("Digite o CPF do usu·rio a ser deletado: ");
+    // Solicita e l√™ o CPF
+    printf("Digite o CPF do usu√°rio a ser deletado: ");
     scanf("%s", cpf);
     
-    // Chama a funÁ„o consultaBanco com o CPF fornecido, para verificar se o usu·rio existe
+    // Chama a fun√ß√£o consultaBanco com o CPF fornecido, para verificar se o usu√°rio existe
     if (!consultaBanco(cpf)) {
         system("pause");
         deletar();
-    } // Se o usu·rio n„o for encontrado, volta para o inÌcio da funÁ„o deletar
+    } // Se o usu√°rio n√£o for encontrado, volta para o in√≠cio da fun√ß√£o deletar
     
-    // Loop para confirmar a deleÁ„o
+    // Loop para confirmar a dele√ß√£o
     while (laco == 1) {
-        printf("Prosseguir com a deleÁ„o?\n");
+        printf("Prosseguir com a dele√ß√£o?\n");
         printf("1. Sim\n");
-        printf("2. N„o\n");
-        printf("Digite a opÁ„o desejada: ");
+        printf("2. N√£o\n");
+        printf("Digite a op√ß√£o desejada: ");
         scanf("%d", &opcao);
         
         switch (opcao) {
             case 1:
                 remove(cpf);
-                printf("\nUsu·rio deletado com sucesso!\n");
+                printf("\nUsu√°rio deletado com sucesso!\n");
                 laco++;
                 break;
             case 2:
-                printf("\nOperaÁ„o cancelada!\n");
+                printf("\nOpera√ß√£o cancelada!\n");
                 laco++;
                 break;
             default:
-                printf("\nEsta opÁ„o n„o est· disponÌvel!\n\n");
+                printf("\nEsta op√ß√£o n√£o est√° dispon√≠vel!\n\n");
                 break;
         }
         
@@ -281,10 +281,10 @@ int deletar() {
     while (laco) {
         system("cls");
         
-        printf("Deseja fazer uma nova exclus„o?\n\n");
-        printf("1- Fazer nova exclus„o\n");
+        printf("Deseja fazer uma nova exclus√£o?\n\n");
+        printf("1- Fazer nova exclus√£o\n");
         printf("2- Voltar ao menu principal\n\n");
-        printf("Digite a opÁ„o desejada: ");
+        printf("Digite a op√ß√£o desejada: ");
         scanf("%d", &opcao);
         
         getchar();  // Consome o caractere de nova linha que ficou no buffer
@@ -297,7 +297,7 @@ int deletar() {
                 return 0;
                 break;
             default:
-                printf("Esta opÁ„o n„o est· disponÌvel!\n\n");
+                printf("Esta op√ß√£o n√£o est√° dispon√≠vel!\n\n");
                 system("pause");
                 break;
         }
@@ -307,8 +307,8 @@ int deletar() {
 }
 
 /*
- * FunÁ„o main
- * OBS: A funÁ„o main contÈm o menu de acesso ‡s opÁıes do programa de CartÛrio da EBAC.
+ * Fun√ß√£o main
+ * OBS: A fun√ß√£o main cont√©m o menu de acesso √†s op√ß√µes do programa de Cart√≥rio da EBAC.
  */
 int main() {
     int opcao = 0;
@@ -319,26 +319,26 @@ int main() {
 		
 	setlocale(LC_ALL, "Portuguese");
 	
-	// ¡rea de login
-	printf("### CartÛrio da EBAC ###\n\n");
+	// √Årea de login
+	printf("### Cart√≥rio da EBAC ###\n\n");
 	printf("Digite a sua senha para acessar o sistema: ");
 	scanf("%s", senha);
 	comparacao = strcmp(senha, "admin");
 	
 	if (comparacao == 0) {
-		// Estrutura de repetiÁ„o para o menu do programa
+		// Estrutura de repeti√ß√£o para o menu do programa
 	    while (laco == 1) {
 	        system("cls"); // Limpa a tela
 	        
-			printf("### CartÛrio da EBAC ###\n\n");
-	        printf("Escolha a opÁ„o desejada do menu:\n\n");
-	        printf("\t1 - Registrar usu·rio\n");
-	        printf("\t2 - Consultar usu·rio por CPF\n");
-	        printf("\t3 - Consultar lista de usu·rios\n");
-	        printf("\t4 - Deletar usu·rio\n\n");
+			printf("### Cart√≥rio da EBAC ###\n\n");
+	        printf("Escolha a op√ß√£o desejada do menu:\n\n");
+	        printf("\t1 - Registrar usu√°rio\n");
+	        printf("\t2 - Consultar usu√°rio por CPF\n");
+	        printf("\t3 - Consultar lista de usu√°rios\n");
+	        printf("\t4 - Deletar usu√°rio\n\n");
 	        printf("\t5 - Sair do sistema\n\n");
 	
-	        printf("OpÁ„o: ");
+	        printf("Op√ß√£o: ");
 	        scanf("%d", &opcao);
 	        getchar();  // Consome o caractere de nova linha que ficou no buffer
 	
@@ -349,21 +349,21 @@ int main() {
 	                registrar();
 	                break;
 	            case 2:
-					consultar();
+			consultar();
 	                break;
 	            case 3:
-					consultaBanco(cpf);
+			consultaBanco(cpf);
 	                break;
 	            case 4:
-					deletar();
+			deletar();
 	                break;
 	            case 5:
 	            	system("cls");
-	            	printf("Sistema encerrado. AtÈ a prÛxima!");
-					return 0;
+	            	printf("Sistema encerrado. At√© a pr√≥xima!");
+			return 0;
 	            	break;
 	            default:
-	                printf("Esta opÁ„o n„o est· disponÌvel!\n\n");
+	                printf("Esta op√ß√£o n√£o est√° dispon√≠vel!\n\n");
 	                system("pause");
 	                break;
 	        }
