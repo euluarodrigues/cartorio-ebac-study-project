@@ -105,7 +105,7 @@ int registrar() {
                 registrar();
                 break;
             case 2:
-                main();
+                return 0;
                 break;
             default:
                 printf("Esta opção não está disponível!\n\n");
@@ -214,7 +214,7 @@ int consultar() {
                 consultar();
                 break;
             case 2:
-                main();
+                return 0;
                 break;
             default:
                 printf("Esta opção não está disponível!\n\n");
@@ -294,7 +294,7 @@ int deletar() {
                 deletar();
                 break;
             case 2:
-                main();
+                return 0;
                 break;
             default:
                 printf("Esta opção não está disponível!\n\n");
@@ -314,44 +314,63 @@ int main() {
     int opcao = 0;
     int laco = 1;
     int cpf = 0;
-
-    // Estrutura de repetição para o menu do programa
-    while (laco == 1) {
-        system("cls"); // Limpa a tela
-        setlocale(LC_ALL, "Portuguese");
-
-        printf("### Cartório da EBAC ###\n\n");
-        printf("Escolha a opção desejada do menu:\n\n");
-        printf("\t1 - Registrar usuário\n");
-        printf("\t2 - Consultar usuário por CPF\n");
-        printf("\t3 - Consultar lista de usuários\n");
-        printf("\t4 - Deletar usuário\n\n");
-
-        printf("Opção: ");
-        scanf("%d", &opcao);
-        getchar();  // Consome o caractere de nova linha que ficou no buffer
-
-        system("cls");
-
-        switch (opcao) {
-            case 1:
-                registrar();
-                break;
-            case 2:
-                consultar();
-                break;
-            case 3:
-                consultaBanco(cpf);
-                break;
-            case 4:
-                deletar();
-                break;
-            default:
-                printf("Esta opção não está disponível!\n\n");
-                system("pause");
-                break;
-        }
-    }
-
-    return 0;
+    char senha[10] = "a";
+    int comparacao;
+		
+	setlocale(LC_ALL, "Portuguese");
+	
+	// Área de login
+	printf("### Cartório da EBAC ###\n\n");
+	printf("Digite a sua senha para acessar o sistema: ");
+	scanf("%s", senha);
+	comparacao = strcmp(senha, "admin");
+	
+	if (comparacao == 0) {
+		// Estrutura de repetição para o menu do programa
+	    while (laco == 1) {
+	        system("cls"); // Limpa a tela
+	        
+			printf("### Cartório da EBAC ###\n\n");
+	        printf("Escolha a opção desejada do menu:\n\n");
+	        printf("\t1 - Registrar usuário\n");
+	        printf("\t2 - Consultar usuário por CPF\n");
+	        printf("\t3 - Consultar lista de usuários\n");
+	        printf("\t4 - Deletar usuário\n\n");
+	        printf("\t5 - Sair do sistema\n\n");
+	
+	        printf("Opção: ");
+	        scanf("%d", &opcao);
+	        getchar();  // Consome o caractere de nova linha que ficou no buffer
+	
+	        system("cls");
+	
+	        switch (opcao) {
+	            case 1:
+	                registrar();
+	                break;
+	            case 2:
+					consultar();
+	                break;
+	            case 3:
+					consultaBanco(cpf);
+	                break;
+	            case 4:
+					deletar();
+	                break;
+	            case 5:
+	            	system("cls");
+	            	printf("Sistema encerrado. Até a próxima!");
+					return 0;
+	            	break;
+	            default:
+	                printf("Esta opção não está disponível!\n\n");
+	                system("pause");
+	                break;
+	        }
+	    }
+	} else
+		printf("\nSenha incorreta!\n\n");
+		system ("pause");
+		system ("cls");
+		main();
 }
